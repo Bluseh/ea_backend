@@ -79,11 +79,15 @@ public class ExpressService {
     }
 
 
-    //新增开始111111111111111111111111111
+    //111111111111111111111111111
     public List<Express> findSignedExpressByReceiver(int receiver) {
         return expressDao.findSignedExpressByReceiver(receiver);
     }
     //新增结束1111111111111111111111
+
+    public List<Express> findMarkedExpressByReceiver(int receiver) {
+        return expressDao.findMarkedExpressByReceiver(receiver);
+    }
 
 
     public Express pickExpressById(String id, HttpServletResponse response) {  // 揽收快件

@@ -78,12 +78,17 @@ public class ExpressController {
     }
 
 
-    //新增开始11111111111111111111111111111
+    //
     @GetMapping("/Domain/Express/getSignedExpressesByReceiver/{receiver}")
     public List<Express> getSignedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
         return expressService.findSignedExpressByReceiver(receiver);
     }
-    //新增结束1111111111111111111111111111111111
+    //新增结束11111
+
+    @GetMapping("/Domain/Express/getMarkedExpressesByReceiver/{receiver}")
+    public List<Express> getMarkedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
+        return expressService.findMarkedExpressByReceiver(receiver);
+    }
 
 
     @GetMapping("/Domain/Express/getPermitExpressListByPid/{pid}")

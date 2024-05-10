@@ -9,9 +9,11 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,6 +76,8 @@ public class WebController {
         Customer cst = customerService.findByTelCode(customer.getTelCode());
         if (cst == null) {
             String plain = customer.getPassword();
+            //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            //String encodedPassword = passwordEncoder.encode(plain);
             //String salt = new SecureRandomNumberGenerator().nextBytes().toString();
             // 设置 hash 算法迭代次数
             //int times = 2;
@@ -95,9 +99,12 @@ public class WebController {
     @PostMapping("/App/login")
     public Customer appLogin(@RequestBody Customer customer, HttpServletResponse response) {
         System.out.println(customer);
+        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        //System.out.println(customer.getTelCode() + encodedPassword);
         Customer cst = customerService.findByTelCodeAndPassword(customer.getTelCode(),customer.getPassword());
         if (cst == null) {
-            System.out.println("customer doesn't exist");
+            System.out.println("customer doesn't exist or password wrong");
             response.addHeader("state","verify_fail");
             return null;
         } else {
@@ -112,7 +119,7 @@ public class WebController {
                 cst.setPassword(customer.getPassword());
                 return cst;
             } catch (AuthenticationException e) {
-                System.out.println("customer password is wrong");
+                System.out.println("error");
                 response.addHeader("state","verify_fail");
                 return null;
             }
