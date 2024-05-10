@@ -3,7 +3,10 @@ package com.extrace.server.dao;
 import com.extrace.server.pojo.Express;
 import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,6 +25,14 @@ public interface ExpressDao extends JpaRepository<Express,Integer> {
     @Query(nativeQuery = true,value = "select * from extrace.express where sender = ?1")
     List<Express> findExpressBySender(int sender);
 
-    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1")
+    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and signer is null")
     List<Express> findExpressByReceiver(int receiver);
+
+   //111111111111111111111
+    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and signer is not null")
+    List<Express> findSignedExpressByReceiver(int receiver);
+    //新增结束111111111111111111111
+    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and marker is not null")
+    List<Express> findMarkedExpressByReceiver(int receiver);
+
 }

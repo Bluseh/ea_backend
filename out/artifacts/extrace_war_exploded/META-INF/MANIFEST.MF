@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: BLUSEH
+Build-Jdk: Oracle OpenJDK version 1.8.0_371
+Implementation-Title: server
+Implementation-Version: 2.1.1.RELEASE
+Implementation-Vendor-Id: com.extrace
+Main-Class: ${start-class}
+

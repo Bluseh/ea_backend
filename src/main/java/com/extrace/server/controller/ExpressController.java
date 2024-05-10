@@ -77,6 +77,23 @@ public class ExpressController {
         return expressService.findExpressByReceiver(receiver);
     }
 
+<<<<<<< HEAD
+=======
+
+    //
+    @GetMapping("/Domain/Express/getSignedExpressesByReceiver/{receiver}")
+    public List<Express> getSignedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
+        return expressService.findSignedExpressByReceiver(receiver);
+    }
+    //新增结束11111
+
+    @GetMapping("/Domain/Express/getMarkedExpressesByReceiver/{receiver}")
+    public List<Express> getMarkedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
+        return expressService.findMarkedExpressByReceiver(receiver);
+    }
+
+
+>>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
     @GetMapping("/Domain/Express/getPermitExpressListByPid/{pid}")
     public List<Express> getPermitExpressListByPid(@PathVariable String pid,HttpServletResponse response){
         return expressService.getPermitExpressListByPid(pid, response);
