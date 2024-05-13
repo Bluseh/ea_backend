@@ -27,10 +27,13 @@ public interface ExpressDao extends JpaRepository<Express,Integer> {
     @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and signer is null")
     List<Express> findExpressByReceiver(int receiver);
 
-   //111111111111111111111
-    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and signer is not null")
+    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and signer is not null and comment is null")
     List<Express> findSignedExpressByReceiver(int receiver);
-    //新增结束111111111111111111111
-    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and marker is not null")
+
+    @Query(nativeQuery = true,value = "select * from extrace.express where receiver = ?1 and comment is not null")
     List<Express> findMarkedExpressByReceiver(int receiver);
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update extrace.express set comment = ?2 where id = ?1")
+    void commentExpress(String expressId, String comment);
 }

@@ -53,7 +53,58 @@ public class Express {
     @Column(name = "recv_region_code")
     private String receiverRegionCode;
 
+    @Column(name="send_tel_code")
+    private String senderTel;
+    @Column(name = "send_name")
+    private String senderName;
+    @Column(name = "recv_tel_code")
+    private String receiverTel;
+    @Column(name = "recv_name")
+    private String receiverName;
+    @Column(name = "comment")
+    private String comment;
+
     // 新添加的方法
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setSenderTel(String senderTel) {
+        this.senderTel = senderTel;
+    }
+
+    public void setReceiverTel(String receiverTel) {
+        this.receiverTel = receiverTel;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getSenderTel() {
+        return senderTel;
+    }
+
+    public String getReceiverTel() {
+        return receiverTel;
+    }
 
     public String getSenderAddress() {
         return senderAddress;
@@ -262,6 +313,11 @@ public class Express {
                 ", pic=" + pic +
                 ", dlv=" + dlv +
                 ", sig=" + sig +
+                ", senderTel='" + senderTel +
+                ", receiverTel='" + receiverTel +
+                ", senderName='" + senderName +
+                ", receiverName='" + receiverName +
+                ", comment=" + comment +
                 '}';
     }
 
