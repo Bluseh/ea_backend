@@ -56,24 +56,28 @@ public class TranshistoryService {
 
         // 获取快件的包裹历史路径
         List<Transhistory> transhistoryList = new ArrayList<>();
-        //设置寄件客户
+        //设置寄件客户（类）为快件号sender（int）对应（id）的Customer
         express.setSnd(customerService.findById(express.getSender()));
         for (Transpackage transpackage : transpackageList) {
+            //获取包裹开始（出发）网点
             Transnode transnode = transnodeService.findById(transpackage.getStartNode());
             int type = -1;
-            //与寄件客户地址Code同，为寄件历史开始网点
+            //与寄件客户RegionCode同，为寄件历史开始网点
             if (transnode.getRegionCode().equals(express.getSnd().getRegionCode())) {
                 type = Transhistory.TYPE.START;
             } else {
+                //与寄件客户RegionCode不同同，为寄件历史转运网点
                 type = Transhistory.TYPE.TRANSFER;
             }
             //新建快件Transhistory实例并加入transhistoryList
             transhistoryList.add(new Transhistory(transnode.getLat(), transnode.getLon(), type));
         }
-        // 获取最后一个包裹的目的地的纬度和经度
+        // 获取最后一个包裹的目的地
+        // （快件只是下单没有揽收并打包，不会有package，transhistoryList为空，会报错*********）
         Transpackage transpackage = transpackageList.get(transhistoryList.size() - 1);
+        //先设为转运网点，之后判断：如果快件的被签收，说明为终点网点
         Transnode transnode = transnodeService.findById(transpackage.getEndNode());
-        transhistoryList.add(new Transhistory(transnode.getLat(), transnode.getLon(),2));
+        transhistoryList.add(new Transhistory(transnode.getLat(), transnode.getLon(),3));
         // 获取快件的派送历史路径，疑似无用
         //transhistoryList.addAll(findByEid(eid));
         //只有下一站是终点站才会显示终点
