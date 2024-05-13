@@ -34,4 +34,12 @@ public class Transpackagecontent {
     public void setEid(String eid) {
         this.eid = eid;
     }
+    @Override
+    public String toString() {
+        return "Transpackagecontent{" +
+                "id=" + id +
+                ", pid='" + pid + '\'' +
+                ", eid='" + eid + '\'' +
+                '}';
+    }
 }

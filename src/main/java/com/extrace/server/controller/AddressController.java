@@ -19,6 +19,10 @@ public class AddressController {
     @GetMapping(value = "/Misc/AddressList/getAddressListByCustomerId/{customerId}")
     public List<Address> getAddressesByCustomerId(@PathVariable Integer customerId, HttpServletResponse response) {
         response.addHeader("state", "read_success");
+        List<Address> addressList = addressService.findAddressesByCustomerId(customerId);
+        for (int i = 0; i < addressList.size(); i++) {
+            System.out.println("asd\n123\n"+addressList);
+        }
         return addressService.findAddressesByCustomerId(customerId);
     }
 
