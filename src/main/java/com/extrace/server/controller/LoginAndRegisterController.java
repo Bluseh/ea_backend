@@ -23,6 +23,7 @@ public class LoginAndRegisterController {
         if(u == null){
             //未找到用户名
             response.addHeader("state","verify_fail");
+
             return null;
         }else{
             //找到用户名

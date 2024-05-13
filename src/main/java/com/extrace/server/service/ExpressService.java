@@ -32,6 +32,7 @@ public class ExpressService {
             return;
         }
         if (express.getSender() != null) {
+            //快件信息包含客户信息
             Customer customer = customerService.findById(express.getSender());
 //            customerService.deleteInfo(customer);
             customerService.addInfo(customer);
@@ -299,6 +300,7 @@ public class ExpressService {
             response.setHeader("state", "express_not_found");
             return null;
         }
+        //为对应快件增加各种信息
         addInfo(express);
         List<ExpressTrack> expressTrackList = new ArrayList<>();
         if (express.getSigner() != null) {  // 签收人
@@ -312,30 +314,33 @@ public class ExpressService {
         }
         // 获取快件相关的所有包裹内容
         List<Transpackagecontent> transpackagecontentList = transpackagecontentService.findByEid(id);
-        Collections.reverse(transpackagecontentList);
-        for (Transpackagecontent transpackagecontent : transpackagecontentList) {
-            Transpackage transpackage = transpackageService.findById(transpackagecontent.getPid());
-            transpackageService.addInfo(transpackage);
-            if (transpackage.getEndTime() != null) {  // 包裹目的地
-                expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, transpackage.getEndTime().toString(),
-                        "快件到达【" + transpackage.getEndNodeName() + "】"));
+        if (transpackagecontentList!=null){
+            Collections.reverse(transpackagecontentList);
+            for (Transpackagecontent transpackagecontent : transpackagecontentList) {
+                Transpackage transpackage = transpackageService.findById(transpackagecontent.getPid());
+                transpackageService.addInfo(transpackage);
+                if (transpackage.getEndTime() != null) {  // 包裹目的地
+                    expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, transpackage.getEndTime().toString(),
+                            "快件到达【" + transpackage.getEndNodeName() + "】"));
+                }
+                if (transpackage.getStartTime() != null) {  // 包裹出发地
+                    expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, transpackage.getStartTime().toString(),
+                            "快件离开【" + transpackage.getStartNodeName() + "】已发往【" +
+                                    transpackage.getEndNodeName() + "】"));
+                }
             }
-            if (transpackage.getStartTime() != null) {  // 包裹出发地
-                expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, transpackage.getStartTime().toString(),
-                        "快件离开【" + transpackage.getStartNodeName() + "】已发往【" +
-                                transpackage.getEndNodeName() + "】"));
+            if (express.getPicker() != null) {  // 揽收人
+                addInfo(express);
+                expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, express.getPickTime().toString(),
+                        "【" + express.getPic().getTransnode().getName() + "】已揽件，投诉电话:" +
+                                express.getPic().getTelCode()));
             }
+            if (express.getSender() != null) {  // 发件人
+                expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, express.getCreateTime().toString(), "商品已经下单"));
+            }
+            response.setHeader("state", "get_track_list_success");
+
         }
-        if (express.getPicker() != null) {  // 揽收人
-            addInfo(express);
-            expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, express.getPickTime().toString(),
-                    "【" + express.getPic().getTransnode().getName() + "】已揽件，投诉电话:" +
-                            express.getPic().getTelCode()));
-        }
-        if (express.getSender() != null) {  // 发件人
-            expressTrackList.add(new ExpressTrack(ExpressTrack.STATUS.TYPE_PAST, express.getCreateTime().toString(), "商品已经下单"));
-        }
-        response.setHeader("state", "get_track_list_success");
         return expressTrackList;
     }
 }

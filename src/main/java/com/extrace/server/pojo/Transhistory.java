@@ -73,4 +73,14 @@ public class Transhistory {
         public static final int END = 2;  // 结束地
         public static final int TRANSFER = 3; // 中转站
     }
+    @Override
+    public String toString() {
+        return "Transhistory{" +
+                "id=" + id +
+                ", eid='" + eid + '\'' +
+                ", lat=" + lat +
+                ", lon=" + lon +
+                ", type=" + type +
+                '}';
+    }
 }

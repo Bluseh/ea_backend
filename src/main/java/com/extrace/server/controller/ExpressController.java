@@ -77,8 +77,6 @@ public class ExpressController {
         return expressService.findExpressByReceiver(receiver);
     }
 
-<<<<<<< HEAD
-=======
 
     //
     @GetMapping("/Domain/Express/getSignedExpressesByReceiver/{receiver}")
@@ -92,8 +90,7 @@ public class ExpressController {
         return expressService.findMarkedExpressByReceiver(receiver);
     }
 
-
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
+    
     @GetMapping("/Domain/Express/getPermitExpressListByPid/{pid}")
     public List<Express> getPermitExpressListByPid(@PathVariable String pid,HttpServletResponse response){
         return expressService.getPermitExpressListByPid(pid, response);

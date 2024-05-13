@@ -9,18 +9,10 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -78,15 +70,13 @@ public class WebController {
     }
     @PostMapping("/App/register")
     public Customer appRegister(@RequestBody Customer customer,HttpServletResponse response){
-        System.out.println(customer);
+        //System.out.println(customer);
         Customer cst = customerService.findByTelCode(customer.getTelCode());
         if (cst == null) {
             String plain = customer.getPassword();
-<<<<<<< HEAD
-=======
+
             //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             //String encodedPassword = passwordEncoder.encode(plain);
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
             //String salt = new SecureRandomNumberGenerator().nextBytes().toString();
             // 设置 hash 算法迭代次数
             //int times = 2;
@@ -107,19 +97,13 @@ public class WebController {
     }
     @PostMapping("/App/login")
     public Customer appLogin(@RequestBody Customer customer, HttpServletResponse response) {
-        System.out.println(customer);
-<<<<<<< HEAD
-        Customer cst = customerService.findByTelCodeAndPassword(customer.getTelCode(),customer.getPassword());
-        if (cst == null) {
-            System.out.println("customer doesn't exist");
-=======
+        //System.out.println(customer);
         //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //String encodedPassword = passwordEncoder.encode(customer.getPassword());
         //System.out.println(customer.getTelCode() + encodedPassword);
         Customer cst = customerService.findByTelCodeAndPassword(customer.getTelCode(),customer.getPassword());
         if (cst == null) {
             System.out.println("customer doesn't exist or password wrong");
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
             response.addHeader("state","verify_fail");
             return null;
         } else {
@@ -134,11 +118,9 @@ public class WebController {
                 cst.setPassword(customer.getPassword());
                 return cst;
             } catch (AuthenticationException e) {
-<<<<<<< HEAD
-                System.out.println("customer password is wrong");
-=======
+
                 System.out.println("error");
->>>>>>> 04e061e8602b0071bfeacdcf591973a5c4025557
+
                 response.addHeader("state","verify_fail");
                 return null;
             }
