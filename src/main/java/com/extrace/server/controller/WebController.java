@@ -74,15 +74,15 @@ public class WebController {
         Customer cst = customerService.findByTelCode(customer.getTelCode());
         if (cst == null) {
             String plain = customer.getPassword();
-            //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            //String encodedPassword = passwordEncoder.encode(plain);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(plain);
             //String salt = new SecureRandomNumberGenerator().nextBytes().toString();
             // 设置 hash 算法迭代次数
             //int times = 2;
             // 得到 hash 后的密码
             //String encodedPassword = new SimpleHash("md5", plain, salt, times).toString();
             customer.setSalt(null);
-            customer.setPassword(plain);
+            customer.setPassword(encodedPassword);
             //注册的用户不存在
             customerService.saveApp(customer);
             customer.setSalt(null);
@@ -97,18 +97,16 @@ public class WebController {
     @PostMapping("/App/login")
     public Customer appLogin(@RequestBody Customer customer, HttpServletResponse response) {
         System.out.println(customer);
-        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //String encodedPassword = passwordEncoder.encode(customer.getPassword());
         //System.out.println(customer.getTelCode() + encodedPassword);
-        Customer cst = customerService.findByTelCodeAndPassword(customer.getTelCode(),customer.getPassword());
-        if (cst == null) {
+        Customer cst = customerService.findByTelCode(customer.getTelCode());
+        boolean ifMatches = passwordEncoder.matches(customer.getPassword(), cst.getPassword());
+        if (!ifMatches) {
             System.out.println("customer doesn't exist or password wrong");
             response.addHeader("state","verify_fail");
             return null;
         } else {
-            //Subject subject = SecurityUtils.getSubject();
-            //MyToken myToken = new MyToken(customer.getTelCode(), customer.getPassword(), 2);
-//           } UsernamePasswordToken myToken = new UsernamePasswordToken(customer.getTelCode(), customer.getPassword());
             try {
                 //subject.login(myToken);
                 response.addHeader("state","verify_success");
