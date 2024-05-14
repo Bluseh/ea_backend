@@ -10,18 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1f637ca-ce24-40dd-9cd0-f1c49c26bd6f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/extrace_war_exploded.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/controller/ExpressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/controller/ExpressController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/controller/WebController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/dao/CustomerAppDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/dao/CustomerAppDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/dao/ExpressDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/dao/ExpressDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/pojo/Express.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/pojo/Express.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/service/ExpressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/service/ExpressService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/extrace/server/service/TranshistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/extrace/server/service/TranshistoryService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +121,7 @@
       <workItem from="1715472197823" duration="13485000" />
       <workItem from="1715558476824" duration="4368000" />
       <workItem from="1715599020393" duration="4967000" />
-      <workItem from="1715647135759" duration="17134000" />
+      <workItem from="1715647135759" duration="17667000" />
     </task>
     <task id="LOCAL-00001" summary="预留了评价接口，以此版本开发路线显示">
       <option name="closed" value="true" />
