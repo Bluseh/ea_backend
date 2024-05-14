@@ -10,9 +10,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -74,16 +73,15 @@ public class WebController {
         Customer cst = customerService.findByTelCode(customer.getTelCode());
         if (cst == null) {
             String plain = customer.getPassword();
-
-            //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            //String encodedPassword = passwordEncoder.encode(plain);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(plain);
             //String salt = new SecureRandomNumberGenerator().nextBytes().toString();
             // 设置 hash 算法迭代次数
             //int times = 2;
             // 得到 hash 后的密码
             //String encodedPassword = new SimpleHash("md5", plain, salt, times).toString();
             customer.setSalt(null);
-            customer.setPassword(plain);
+            customer.setPassword(encodedPassword);
             //注册的用户不存在
             customerService.saveApp(customer);
             customer.setSalt(null);
@@ -95,35 +93,42 @@ public class WebController {
             return null;
         }
     }
-    @PostMapping("/App/login")
-    public Customer appLogin(@RequestBody Customer customer, HttpServletResponse response) {
-        //System.out.println(customer);
-        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @GetMapping(value = "/App/login")
+    public Customer appLogin(@RequestParam("telCode") String telCode, @RequestParam("passWord") String passWord, HttpServletResponse response) {
+        System.out.println(passWord + " " + telCode);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //String encodedPassword = passwordEncoder.encode(customer.getPassword());
         //System.out.println(customer.getTelCode() + encodedPassword);
-        Customer cst = customerService.findByTelCodeAndPassword(customer.getTelCode(),customer.getPassword());
-        if (cst == null) {
-            System.out.println("customer doesn't exist or password wrong");
+
+        Customer cst = customerService.findByTelCode(telCode);
+        if (cst==null){
+            System.out.println("customer doesn't exist ");
             response.addHeader("state","verify_fail");
             return null;
-        } else {
-            //Subject subject = SecurityUtils.getSubject();
-            //MyToken myToken = new MyToken(customer.getTelCode(), customer.getPassword(), 2);
-//           } UsernamePasswordToken myToken = new UsernamePasswordToken(customer.getTelCode(), customer.getPassword());
-            try {
-                //subject.login(myToken);
-                response.addHeader("state","verify_success");
-                System.out.println("verify_success");
-                cst.setSalt(null);
-                cst.setPassword(customer.getPassword());
-                return cst;
-            } catch (AuthenticationException e) {
-
-                System.out.println("error");
-
+        }else {
+            boolean ifMatches = passwordEncoder.matches(passWord, cst.getPassword());
+            if (!ifMatches) {
+                System.out.println("password wrong");
                 response.addHeader("state","verify_fail");
                 return null;
+            } else {
+                try {
+                    //subject.login(myToken);
+                    response.addHeader("state","verify_success");
+                    System.out.println("verify_success");
+                    cst.setSalt(null);
+                    cst.setPassword(passWord);
+                    System.out.println(cst.toString());
+                    return cst;
+                } catch (AuthenticationException e) {
+
+                    System.out.println("error");
+                    response.addHeader("state","verify_fail");
+                    return null;
+                }
             }
         }
+
     }
 }

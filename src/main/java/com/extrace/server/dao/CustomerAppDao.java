@@ -29,5 +29,4 @@ public interface CustomerAppDao extends JpaRepository<Customer, Integer> {
     @Query(nativeQuery = true,value = "select * from customer where telCode = ?1 and password = ?2")
     Customer findByTelCodeAndPassword(String telCode,String password);
 
-
 }

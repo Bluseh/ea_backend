@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
@@ -79,12 +80,9 @@ public class ExpressService {
         return expressDao.findExpressByReceiver(receiver);
     }
 
-
-    //111111111111111111111111111
     public List<Express> findSignedExpressByReceiver(int receiver) {
         return expressDao.findSignedExpressByReceiver(receiver);
     }
-    //新增结束1111111111111111111111
 
     public List<Express> findMarkedExpressByReceiver(int receiver) {
         return expressDao.findMarkedExpressByReceiver(receiver);
@@ -111,7 +109,10 @@ public class ExpressService {
         express.setPickTime(timestamp);
         express.setPicker(user.getId());
         addInfo(express);
-        Transnode transnode = transnodeService.findById(user.getNid());  // 获取当前网点
+        System.out.println("yyq\nexpress:\n"+express);
+        System.out.println("\nyyq\nuser:\n"+user);
+        Transnode transnode = transnodeService.findById(user.getNid());
+        System.out.println("yyyq\nsss\ntransnode"+transnode.toString());// 获取当前网点
         if (express.getRcv().getRegionCode().equals(transnode.getRegionCode())) {
             express.setStatus(Express.STATUS.STATUS_WAIT_DELIVER);
         } else {
@@ -268,6 +269,11 @@ public class ExpressService {
            String queryString = "1"+customer.getRegionCode()+"00";
            return queryString+String.format("%06d", expressDao.coutByIdLike(queryString)+1);
        }
+    }
+
+    @Transactional
+    public void commentExpress(String expressId, String param) {
+        expressDao.commentExpress(expressId, param);
     }
 
     public List<Express> getFreeExpressList() {

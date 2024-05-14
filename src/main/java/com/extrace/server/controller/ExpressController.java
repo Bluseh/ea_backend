@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -78,19 +79,16 @@ public class ExpressController {
     }
 
 
-    //
     @GetMapping("/Domain/Express/getSignedExpressesByReceiver/{receiver}")
     public List<Express> getSignedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
         return expressService.findSignedExpressByReceiver(receiver);
     }
-    //新增结束11111
 
     @GetMapping("/Domain/Express/getMarkedExpressesByReceiver/{receiver}")
     public List<Express> getMarkedExpressesByReceiver(@PathVariable int receiver, HttpServletResponse response) {
         return expressService.findMarkedExpressByReceiver(receiver);
     }
 
-    
     @GetMapping("/Domain/Express/getPermitExpressListByPid/{pid}")
     public List<Express> getPermitExpressListByPid(@PathVariable String pid,HttpServletResponse response){
         return expressService.getPermitExpressListByPid(pid, response);
@@ -128,4 +126,15 @@ public class ExpressController {
         }
         return expressTrackList;
     }
+
+    @GetMapping(value = "/Domain/Express/commentExpress")
+    public void saveAddressByCustomerId(@RequestParam("param") String param,
+                                        @RequestParam("expressId") String expressId,
+                                        HttpServletResponse response) throws UnsupportedEncodingException {
+
+        // UTF-8手动解析出错，只好使用MVC自动解析
+        expressService.commentExpress(expressId, param);
+        response.addHeader("state", "comment_success");
+    }
+
 }
