@@ -24,6 +24,8 @@ public class TranshistoryService {
     TransnodeService transnodeService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    TranshistoryService transhistoryService;
     public Transhistory findById(int id) {
         return transhistoryDao.findById(id);
     }
@@ -99,6 +101,10 @@ public class TranshistoryService {
         }
         response.setHeader("state", "get_list_success");
         //直接返回给前端没保存进数据库
+//        //测试
+//        List<Transhistory> transhistoryList1 = transhistoryService.findByEid("134010200000001");
+//        System.out.println("yyq\n"+transhistoryList1.toString());
         return transhistoryList;
     }
+
 }
