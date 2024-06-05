@@ -2,8 +2,6 @@ package com.extrace.server.service;
 
 import com.extrace.server.dao.ExpressDao;
 import com.extrace.server.pojo.*;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +26,7 @@ public class ExpressService {
     TranspackageService transpackageService;
     @Autowired
     TransnodeService transnodeService;
+
     public void addInfo(Express express) {
         if (express == null) {
             return;
@@ -36,12 +35,16 @@ public class ExpressService {
             //快件信息包含客户信息
             Customer customer = customerService.findById(express.getSender());
 //            customerService.deleteInfo(customer);
+            customer.setAddress(express.getSenderAddress());
+            customer.setRegionCode(express.getSenderRegionCode());
             customerService.addInfo(customer);
             express.setSnd(customer);
         }
         if (express.getReceiver() != null) {
             Customer customer = customerService.findById(express.getReceiver());
 //            customerService.deleteInfo(customer);
+            customer.setAddress(express.getReceiverAddress());
+            customer.setRegionCode(express.getReceiverRegionCode());
             customerService.addInfo(customer);
             express.setRcv(customer);
         }
